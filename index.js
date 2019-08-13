@@ -1,5 +1,3 @@
-/* eslint no-console: 0 */
-
 const fs = require('fs')
     , path = require('path')
 
@@ -35,7 +33,6 @@ module.exports.run = async function({
     if (!nextMigration)
       return
 
-    console.log('Running', nextMigration.migration_id, nextMigration.name)
     await run(nextMigration)
     await next()
   }
