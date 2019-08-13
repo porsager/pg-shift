@@ -26,7 +26,7 @@ module.exports.run = async function({
   if (latest.migration_id !== migrations.length)
     throw new Error('Inconsistency in migration numbering')
 
-  return ensureMigrationsTable().then(next)
+  return ensureMigrationsTable().then(next).then(() => migrations.slice(latest.migration_id))
 
   async function next() {
     const current = await getCurrentMigration()
