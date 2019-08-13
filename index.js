@@ -7,7 +7,9 @@ module.exports.run = async function({
   db,
   path = join(process.cwd(), 'migrations'),
   debug = false,
-  table = 'migrations'
+  table = 'migrations',
+  before = null,
+  after = null
 }) {
   debug && require('pg-monitor').attach(db.$config.options)
   const migrations = fs.readdirSync(path)
@@ -33,7 +35,9 @@ module.exports.run = async function({
     if (!nextMigration)
       return
 
+    before && before(nextMigration)
     await run(nextMigration)
+    after && after(nextMigration)
     await next()
   }
 
